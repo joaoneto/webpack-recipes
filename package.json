@@ -2,12 +2,14 @@
   "name": "bundlr",
   "version": "1.0.0",
   "description": "Bundle your project",
+  "license": "MIT",
   "author": "João Neto <joaopintoneto@gmail.com>",
   "scripts": {},
   "bin": {
     "bundlr": "bundlr.js"
   },
   "dependencies": {
+    "async": "^2.6.0",
     "webpack": "^4.6.0",
     "webpack-cli": "^2.0.15",
     "webpack-dev-server": "^3.1.3",

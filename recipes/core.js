@@ -11,4 +11,4 @@ module.exports.recipe = {
   }
 };
 
-module.exports.webpackConfig = {};
+module.exports.webpackConfig = () => {};
