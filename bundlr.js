@@ -12,6 +12,14 @@ recipes.setRecipesDirs([
 
 async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
     const { recipe, webpackConfig } = require(recipeFile);
+    const { hooks } = recipe;
+
+
+    // add hooks to run after
+    if (hooks && hooks.after) {
+      bundlr.addHook('after', hooks.after);
+    }
+
     if (recipe.command) {
       cli.command(recipe.command.command, recipe.command.describe, recipe.command.builder, (argv) => {
         recipe.command.handler(argv);
@@ -25,7 +33,8 @@ async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
   },
   (err) => {
     err && console.error(err);
-    console.log(bundlr.getWebpackConfig());
+    const webpackConfig = bundlr.getWebpackConfig();
+    bundlr.getHooks('after').map(hook => hook(webpackConfig));
   }
 );
 
