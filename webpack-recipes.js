@@ -5,14 +5,11 @@ const webpackRecipes = require('./lib/webpack-recipes');
 const cli = require('./lib/cli');
 const recipes = require('./lib/recipes');
 
-const recipesDirs = new Set([
-  path.resolve(webpackRecipes.webpackRecipesDir, 'recipes'),
-  path.resolve(webpackRecipes.rootDir, 'recipes')
+const rootDir = process.cwd();
+
+recipes.setRecipesDirs([
+  path.resolve(rootDir, 'recipes')
 ]);
-
-console.log([...recipesDirs]);
-
-recipes.setRecipesDirs([...recipesDirs]);
 
 async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
     const { recipe, webpackConfig } = require(recipeFile);
@@ -41,7 +38,7 @@ async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
   }
 );
 
-const argv = cli
+cli
   .default('scope', 'development')
   .help()
   .argv;

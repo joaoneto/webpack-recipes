@@ -4,7 +4,18 @@ module.exports.recipe = {
   description: 'Core recipe fixture',
   scope: 'all',
   dependencies: {
+  },
+  hooks: {
+    after: () => {
+      return 'hook';
+    }
   }
 };
 
-module.exports.webpackConfig = () => {};
+module.exports.webpackConfig = function (argv) {
+  return {
+    entry: {
+      app: './app'
+    }
+  }
+};
