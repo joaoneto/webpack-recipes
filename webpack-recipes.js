@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const glob = require('glob');
 const path = require('path');
 const async = require('async');
 const webpackRecipes = require('./lib/webpack-recipes');
@@ -7,9 +8,11 @@ const recipes = require('./lib/recipes');
 
 const rootDir = process.cwd();
 
-recipes.setRecipeDir([
-  path.resolve(rootDir, 'recipes')
-]);
+recipes.setRecipeDir(path.resolve(rootDir, 'recipes'));
+
+glob.sync(path.resolve(process.cwd(), './node_modules/*-recipe*/recipes')).map(dir => {
+  recipes.setRecipeDir(dir);
+});
 
 async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
     const { recipe, webpackConfig } = require(recipeFile);
