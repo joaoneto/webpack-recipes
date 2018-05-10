@@ -4,6 +4,7 @@
   "description": "Webpack Recipes for nice builds",
   "license": "MIT",
   "author": "João Neto <joaopintoneto@gmail.com>",
+  "repository": "github:joaoneto/webpack-recipes",
   "scripts": {
     "test": "mocha --recursive ./test"
   },
