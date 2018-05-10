@@ -3,17 +3,17 @@ const path = require('path');
 const sinon = require('sinon');
 const { assert } = require('chai');
 
-const stubProcess = function (argv) {
+const stubProcess = (argv) => {
   sinon.stub(process, 'argv').get(() => argv);
   sinon.stub(process, 'cwd').returns(path.resolve(__dirname, './fixtures'));
 };
 
-const restoreProcess = function (argv) {
+const restoreProcess = (argv) => {
   process.argv.restore && process.argv.restore();
   process.cwd.restore && process.cwd.restore();
 };
 
-const runWebpackRecipesCli = function () {
+const runWebpackRecipesCli = () => {
   require('../webpack-recipes');
   delete require.cache[require.resolve('../webpack-recipes')];
 };

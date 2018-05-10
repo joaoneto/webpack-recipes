@@ -7,7 +7,7 @@ const recipes = require('./lib/recipes');
 
 const rootDir = process.cwd();
 
-recipes.setRecipesDirs([
+recipes.setRecipeDir([
   path.resolve(rootDir, 'recipes')
 ]);
 
