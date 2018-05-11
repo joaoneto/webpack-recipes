@@ -1,6 +1,6 @@
 {
   "name": "webpack-recipes",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Webpack Recipes for nice builds",
   "license": "MIT",
   "author": "João Neto <joaopintoneto@gmail.com>",
