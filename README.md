@@ -35,3 +35,9 @@ module.exports.webpackConfig = function (argv) {
   };
 };
 ```
+
+### Exemplo de plugin:
+https://github.com/joaoneto/webpack-recipes-devserver
+
+### Exemplo de app:
+https://github.com/joaoneto/webpack-recipes-example
