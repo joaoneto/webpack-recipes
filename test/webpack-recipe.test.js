@@ -40,7 +40,7 @@ describe('Webpack Recipes CLI', () => {
 
     const recipesFiles = this.recipes.getRecipesFiles();
     assert.isArray(recipesFiles);
-    assert.lengthOf(recipesFiles, 1);
+    assert.lengthOf(recipesFiles, 2);
   });
 
   it('should get recipes dirs', () => {
@@ -53,7 +53,7 @@ describe('Webpack Recipes CLI', () => {
 
     const recipesDirs = this.recipes.getRecipesDirs();
     assert.isArray(recipesDirs);
-    assert.lengthOf(recipesDirs, 1);
+    assert.lengthOf(recipesDirs, 2);
   });
 
   it('should get webpack config', () => {
@@ -65,7 +65,7 @@ describe('Webpack Recipes CLI', () => {
     runWebpackRecipesCli();
 
     const webpackConfig = this.webpackRecipes.getWebpackConfig();
-    assert.deepInclude(webpackConfig, { entry: { app: './app' } });
+    assert.deepInclude(webpackConfig, { entry: { app: './app', 'my-plugin-recipe-entry': './my-plugin.js' } });
   });
 
   it('should get webpack recipes hooks', () => {
@@ -78,7 +78,7 @@ describe('Webpack Recipes CLI', () => {
 
     const webpackRecipesHooks = this.webpackRecipes.getHooks('after');
     assert.isArray(webpackRecipesHooks);
-    assert.lengthOf(webpackRecipesHooks, 1);
+    assert.lengthOf(webpackRecipesHooks, 2);
     assert.isFunction(webpackRecipesHooks[0]);
   });
 

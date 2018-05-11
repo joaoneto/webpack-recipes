@@ -34,6 +34,6 @@ describe('Webpack Recipes lib/recipes', () => {
     recipesFiles = this.recipes.getRecipesFiles();
 
     assert.isArray(recipesFiles);
-    assert.lengthOf(recipesFiles, 1);
+    assert.lengthOf(recipesFiles, 2);
   });
 });
