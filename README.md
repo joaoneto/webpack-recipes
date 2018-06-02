@@ -1,20 +1,20 @@
 # Webpack Recipes
-Linha de comando modular e plugável para compor e executar builds webpack.
-Organize em *receitas*, cada pedaço do seu build webpack.
+Modular and pluggable command line for compiling and running webpack builds. Organize in *recipes*, each piece of your webpack build.
 
-Instalação:
+
+Installation:
 ```shell
 npm install -g webpack-recipes
 ```
 
-### Diretório de receitas:
-Crie um diretório chamado *recipes* na raiz do seu projeto, assim todos os arquivos .js serão incluídos
+### Recipes directory:
+Create a directory called *recipes* at the root of your project, so all .js files will be included.
 ```shell
-cd /meu/projeto
+cd /my/project
 mkdir recipes
 ```
-### Receitas
-As receitas devem exportar *recipe* e *webpackConfig*
+### Recipes
+Recipes files must be a .js file and should export *recipe* and *webpackConfig*
 ```javascript
 module.exports.recipe = {
   name: 'test-app',
@@ -24,7 +24,7 @@ module.exports.recipe = {
 };
 ```
 
-O objeto de configuração do webpack deve ser uma função que recebe *argv* como parâmetro
+The webpack configuration object must be a function that receives *argv* as a parameter
 ```javascript
 module.exports.webpackConfig = function (argv) {
   return {
@@ -36,8 +36,7 @@ module.exports.webpackConfig = function (argv) {
 };
 ```
 
-### Exemplo de plugin:
-https://github.com/joaoneto/webpack-recipes-devserver
-
-### Exemplo de app:
-https://github.com/joaoneto/webpack-recipes-example
+### Examples:
+- Simple recipe example *(app)*: https://github.com/joaoneto/webpack-recipes-example
+- DevServer recipe *(plugin)*: https://github.com/joaoneto/webpack-recipes-devserver
+- ES6 minimum build recipe *(plugin)*: https://github.com/joaoneto/webpack-recipes-es6
