@@ -14,30 +14,23 @@ glob.sync(path.resolve(process.cwd(), './node_modules/*-recipe*/recipes')).map(d
   recipes.setRecipeDir(dir);
 });
 
-async.eachSeries(recipes.getRecipesFiles(), (recipeFile, next) => {
+async.eachSeries(recipes.getRecipesFiles(),
+  (recipeFile, next) => {
     const { recipe, webpackConfig } = require(recipeFile);
-    const { hooks } = recipe;
-
-    // add hooks to run after
-    if (hooks && hooks.after) {
-      webpackRecipes.addHook('after', hooks.after);
-    }
-
-    if (recipe.command) {
-      cli.command(recipe.command.command, recipe.command.describe, recipe.command.builder, (argv) => {
-        recipe.command.handler(argv);
-        webpackRecipes.addWebpackConfig(webpackConfig(argv));
-        next();
-      });
-    } else {
-      webpackRecipes.addWebpackConfig(webpackConfig({}));
-      next();
-    }
+    webpackRecipes.addWebpackConfig(webpackConfig);
+    webpackRecipes.addHook('after', recipe);
+    next();
   },
   (err) => {
     err && console.error(err);
-    const webpackConfig = webpackRecipes.getWebpackConfig();
-    webpackRecipes.getHooks('after').map(hook => hook(webpackConfig));
+    const hooks = webpackRecipes.getHooks('after');
+    webpackRecipes.getHooks('after').map(recipe => {
+      if (recipe.command) {
+        cli.command(recipe.command.command, recipe.command.describe, recipe.command.builder, (argv) => {
+          recipe.command.handler(argv, webpackRecipes.getWebpackConfig(argv));
+        });
+      }
+    });
   }
 );
 

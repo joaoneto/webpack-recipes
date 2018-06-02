@@ -1,7 +1,9 @@
 const sinon = require('sinon');
 const { assert } = require('chai');
 
-describe('Webpack Recipes lib/webpack-recipes', () => {
+describe('Webpack Recipes lib/webpack-recipes', function () {
+  this.recipeFile = require('../fixtures/recipes/core');
+
   beforeEach(() => {
     this.webpackRecipes = require('../../lib/webpack-recipes');
   });
@@ -15,29 +17,30 @@ describe('Webpack Recipes lib/webpack-recipes', () => {
   });
 
   it('should add webpack config', () => {
-    let webpackConfig;
+    let mergedWebpackConfig;
+    const { recipe, webpackConfig } = this.recipeFile;
+    const argv = { app: ['./app'] };
 
-    this.webpackRecipes.addWebpackConfig({ entry: ['./app'] });
-    webpackConfig = this.webpackRecipes.getWebpackConfig();
-
-    assert.deepInclude(webpackConfig, { entry: ['./app'] });
+    this.webpackRecipes.addWebpackConfig(webpackConfig);
+    mergedWebpackConfig = this.webpackRecipes.getWebpackConfig(argv);
+    assert.deepInclude(mergedWebpackConfig, { entry: { app: ['./app'] } });
   });
 
   it('should add and merge webpack config', () => {
-    let webpackConfig;
+    let mergedWebpackConfig;
+    const { recipe, webpackConfig } = this.recipeFile;
+    const argv = { app: './app' };
 
-    this.webpackRecipes.addWebpackConfig({ entry: ['./app'] });
-    this.webpackRecipes.addWebpackConfig({ entry: ['./vendor'] });
-    webpackConfig = this.webpackRecipes.getWebpackConfig();
+    this.webpackRecipes.addWebpackConfig(webpackConfig);
+    this.webpackRecipes.addWebpackConfig(() => ({ entry: { vendor: './vendor' } }));
+    mergedWebpackConfig = this.webpackRecipes.getWebpackConfig(argv);
 
-    assert.deepInclude(webpackConfig, { entry: ['./app', './vendor'] });
+    assert.deepInclude(mergedWebpackConfig, { entry: { app: './app', vendor: './vendor' } });
   });
 
   it('should add/get `after` hook', () => {
-    let hooks;
-
-    this.webpackRecipes.addHook('after', () => 'this is after hook');
-    hooks = this.webpackRecipes.getHooks('after');
+    this.webpackRecipes.addHook('after', () => {});
+    let hooks = this.webpackRecipes.getHooks('after');
 
     assert.isArray(hooks);
     assert.lengthOf(hooks, 1);

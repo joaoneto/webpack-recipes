@@ -32,7 +32,8 @@ describe('Webpack Recipes CLI', () => {
 
   it('should get recipes files', () => {
     const argv = [
-      require.resolve('../webpack-recipes')
+      require.resolve('../webpack-recipes'),
+      '--app', './app'
     ];
 
     stubProcess(argv);
@@ -64,7 +65,7 @@ describe('Webpack Recipes CLI', () => {
     stubProcess(argv);
     runWebpackRecipesCli();
 
-    const webpackConfig = this.webpackRecipes.getWebpackConfig();
+    const webpackConfig = this.webpackRecipes.getWebpackConfig({ app: './app' });
     assert.deepInclude(webpackConfig, { entry: { app: './app', 'my-plugin-recipe-entry': './my-plugin.js' } });
   });
 
@@ -79,7 +80,8 @@ describe('Webpack Recipes CLI', () => {
     const webpackRecipesHooks = this.webpackRecipes.getHooks('after');
     assert.isArray(webpackRecipesHooks);
     assert.lengthOf(webpackRecipesHooks, 2);
-    assert.isFunction(webpackRecipesHooks[0]);
+    assert.isFunction(webpackRecipesHooks[0].command.handler);
+    assert.isFunction(webpackRecipesHooks[1].command.handler);
   });
 
 });
